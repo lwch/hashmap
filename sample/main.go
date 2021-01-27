@@ -55,7 +55,7 @@ func (s *stringSlice) Empty(idx uint64) bool {
 	return len(data.k) == 0 && len(data.v) == 0
 }
 
-func (s *stringSlice) Set(idx uint64, key, value interface{}, deadline time.Time, update bool) {
+func (s *stringSlice) Set(idx uint64, key, value interface{}, deadline time.Time, update bool) bool {
 	data := &s.data[int(idx)%len(s.data)]
 	data.k = key.(string)
 	data.v = value.(string)
@@ -63,6 +63,7 @@ func (s *stringSlice) Set(idx uint64, key, value interface{}, deadline time.Time
 	if !update {
 		s.size++
 	}
+	return true
 }
 
 func (s *stringSlice) Get(idx uint64) interface{} {
