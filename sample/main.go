@@ -52,7 +52,7 @@ func (s *stringSlice) KeyEqual(idx uint64, key interface{}) bool {
 
 func (s *stringSlice) Empty(idx uint64) bool {
 	data := s.data[int(idx)%len(s.data)]
-	return len(data.k) == 0 && len(data.v) == 0
+	return (len(data.k) == 0 && len(data.v) == 0)
 }
 
 func (s *stringSlice) Set(idx uint64, key, value interface{}, deadline time.Time, update bool) bool {
@@ -85,7 +85,7 @@ func (s *stringSlice) Timeout(idx uint64) bool {
 
 func main() {
 	s := &stringSlice{}
-	mp := hashmap.New(s, 1000, 5, 1000, 10*time.Second)
+	mp := hashmap.New(s, 1000, 5, 10*time.Second)
 	for i := 0; i < 100; i++ {
 		str := fmt.Sprintf("%d", i)
 		mp.Set(str, str)
@@ -93,5 +93,6 @@ func main() {
 	fmt.Printf("5=%v\n", mp.Get("5"))
 	fmt.Printf("size=%d\n", mp.Size())
 	time.Sleep(time.Minute)
+	mp.Clear()
 	fmt.Printf("size=%d\n", mp.Size())
 }
